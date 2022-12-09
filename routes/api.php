@@ -15,6 +15,7 @@ use App\Http\Controllers\PlayerController;
 |
 */
 
+Route::get('/players', [PlayerController::class, 'index']);
 Route::post('/player', [PlayerController::class, 'store']);
 Route::post('/player/{player}/update', [PlayerController::class, 'update']);
 Route::get('/skills', [PlayerController::class, 'listSkillsAvailableByGender']);

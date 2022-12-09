@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class PlayerController extends Controller
 {
+    public function index() {
+
+        return Player::orderBy('created_at', 'desc')->get();
+
+    }
+    
     public function store(StorePlayerRequest $request) {
 
         $gender = strtolower($request->input('gender'));
