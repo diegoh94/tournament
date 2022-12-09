@@ -16,3 +16,4 @@ use App\Http\Controllers\PlayerController;
 */
 
 Route::post('/player', [PlayerController::class, 'store']);
+Route::post('/player/{player}/update', [PlayerController::class, 'update']);
