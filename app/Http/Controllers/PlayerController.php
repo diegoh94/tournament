@@ -37,4 +37,23 @@ class PlayerController extends Controller
         return response()->json(['message' => 'Jugador actualizado exitosamente'], 200);
 
     }
+
+    public function listSkillsAvailableByGender(Request $request) {
+
+        $rules = [
+            'gender' => 'required|in:f,F,m,M'
+        ];
+
+        $this->validate($request, $rules);
+        
+        $listSkillsAvailableByGender = [
+            'm' => ['skill_level', 'strength', 'velocity_of_displacement'], 
+            'f' => ['skill_level', 'reaction_time']
+        ];
+
+        $gender = strtolower($request->input('gender'));
+        
+        return $listSkillsAvailableByGender[$gender];
+
+    }
 }
