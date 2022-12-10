@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\SkillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,5 @@ use App\Http\Controllers\PlayerController;
 Route::get('/players', [PlayerController::class, 'index']);
 Route::post('/player', [PlayerController::class, 'store']);
 Route::post('/player/{player}/update', [PlayerController::class, 'update']);
-Route::get('/skills', [PlayerController::class, 'listSkillsAvailableByGender']);
+
+Route::get('/skills', [SkillController::class, 'byGender']);
