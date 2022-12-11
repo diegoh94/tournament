@@ -16,11 +16,10 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('gender'); // m - f
-            $table->integer('skill_level')->default(0); // 0 - 100
-            $table->integer('strength')->default(0); // 0 - 100
-            $table->integer('velocity_of_displacement')->default(0); // 0 - 100
-            $table->integer('reaction_time')->default(0); // 0 - 100
+            
+            $table->bigInteger('gender_id')->unsigned();
+            $table->foreign('gender_id')->references('id')->on('genders');
+
             $table->timestamps();
         });
     }

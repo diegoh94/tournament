@@ -11,11 +11,11 @@ class Player extends Model
 
     protected $fillable = [
         'name',
-        'gender', 
-        'skill_level',
-        'strength',
-        'velocity_of_displacement',
-        'reaction_time'
+        'gender_id'
     ];
-    
+
+    public function gender()
+    {
+        return $this->belongsTo('App\Models\Gender');
+    }
 }
