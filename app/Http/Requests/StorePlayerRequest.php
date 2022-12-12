@@ -25,7 +25,11 @@ class StorePlayerRequest extends FormRequest
     {
         return [
             'name' => 'required', 
-            'gender_id' => 'required|integer|in:1,2'
+            'gender_id' => 'required|integer|in:1,2',
+            'skill_level' => 'sometimes|integer',
+            'strength' => 'sometimes|integer',
+            'velocity_of_displacement' => 'sometimes|integer',
+            'reaction_time' => 'sometimes|integer'
         ];
     }
 }

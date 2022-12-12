@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TournamentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,5 @@ Route::post('/player', [PlayerController::class, 'store']);
 Route::post('/player/{player}/update', [PlayerController::class, 'update']);
 
 Route::get('/skills', [SkillController::class, 'byGender']);
+
+Route::post('/tournament', [TournamentController::class, 'store']);
