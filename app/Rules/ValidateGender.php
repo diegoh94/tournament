@@ -34,6 +34,6 @@ class ValidateGender implements Rule
      */
     public function message()
     {
-        return 'All players must be of the same gender and match the gender established in the tournament';
+        return 'All players must be of the same gender and match the gender established in the tournament.';
     }
 }

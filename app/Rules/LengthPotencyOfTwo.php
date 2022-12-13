@@ -28,7 +28,7 @@ class LengthPotencyOfTwo implements Rule
         $lenght = count($value);
 
         // Simplification of Brian Kernighan algorithm
-        return $lenght && !( $lenght & ($lenght-1));
+        return $lenght && !( $lenght & ($lenght-1) );
 
     }
 
