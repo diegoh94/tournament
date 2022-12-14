@@ -7,10 +7,17 @@ use App\Http\Requests\StoreTournamentRequest;
 use App\Models\Tournament;
 use App\Models\TournamentPlayer;
 use App\Models\Player;
+use App\Custom\Game;
 
 
 class TournamentController extends Controller
 {
+    private $game;
+
+    public function __construct(Game $game) {
+        $this->game = $game;
+    }
+
     public function store(StoreTournamentRequest $request) {
 
         $tournament = Tournament::create($request->only('name', 'gender_id'));
@@ -29,48 +36,8 @@ class TournamentController extends Controller
             ]);
         }
         
-        shuffle($playerIds); // desordenar array ids    
+        return $this->game->init($playerIds);
         
-        // logica de torneo
-        $tournament_history = [];
-        $winner = $this->tournamentinit($playerIds, $tournament_history);
-        
-        dd($winner);
     }
-
-    public function tournamentinit($playerIds, $tournament_history) {
-        
-        $n = count($playerIds);   
-        
-        if ($n == 1) { dump($tournament_history);
-            return $playerIds;
-        }
-
-        $array_encuentros = [];
-        $array_winnings = [];
-        
-        for($i = 0; $i <= ($n/2) - 1 ; $i++) {    
-            
-            // Establece un player ganador con base en sus skills
-            $winningPlayer = $this->matchPlayer($playerIds[$i], $playerIds[$n-$i-1]);
-
-            // Actualiza arreglo con ganadores de la primera ronda
-            array_push($array_winnings, $winningPlayer);    
-            
-            // Guarda los encuentros con sus respectivos ganadores para tener un historial del torneo
-            array_push($array_encuentros, [
-                'players' => [ $playerIds[$i], $playerIds[$n-$i-1] ],
-                'winner' => $winningPlayer
-            ]);
-        }
-
-        // Guarda historial de todas las fases
-        array_push($tournament_history, $array_encuentros);
-
-        $this->tournamentinit($array_winnings, $tournament_history);
-    }
-
-    public function matchPlayer($playerA, $playerB) {
-        return $playerB; // lógica provisional, da como ganador siempre al segundo jugador
-    }
+    
 }
