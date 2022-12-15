@@ -32,14 +32,31 @@ class TournamentRepository implements ITournamentRepository
             TournamentPlayer::createFromPlayer($tournament->id, $player);
         }
         
-        $tournamentData = $this->game->setup($playerIds, $tournament->gender_id);
+        $this->game->setup($playerIds, $tournament->gender_id);
         $tournamentData = $this->game->init();
         
         $tournament->update([
             'winner' => json_encode($tournamentData['tournament_winner']),
             'history' => json_encode($tournamentData['history'])
         ]);
+        $tournament->save();
 
         return $tournamentData;        
+    }
+
+    public function list($data) {
+        $query = Tournament::query();
+            
+        if(isset($data['gender_id'])) {
+            $query->where('gender_id', $data['gender_id']);
+        }
+        
+        if(isset($data['start_date']) || isset($data['end_date'])) {
+            $start_date = $data['start_date'];
+            $end_date = $data['end_date'];
+            $query->whereBetween('created_at', [$start_date, $end_date]);
+        }
+        
+        return $query->orderBy('created_at', 'desc')->get();
     }
 }

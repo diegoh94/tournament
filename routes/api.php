@@ -24,3 +24,4 @@ Route::post('/player/{player}/update', [PlayerController::class, 'update']);
 Route::get('/skills', [SkillController::class, 'byGender']);
 
 Route::post('/tournament', [TournamentController::class, 'store']);
+Route::post('/tournaments', [TournamentController::class, 'index']);

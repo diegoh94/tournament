@@ -11,7 +11,9 @@ class Tournament extends Model
 
     protected $fillable = [
         'name',
-        'gender_id'
+        'gender_id',
+        'winner',
+        'history'
     ];
 
 }

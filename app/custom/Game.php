@@ -3,6 +3,10 @@
 use App\Models\Player;
 use App\Models\Gender;
 
+/** 
+ * Logic to decide winners for the tournaments 
+*/
+
 class Game 
 {
     const WEIGHT_SKILL_LEVEL = 3;
