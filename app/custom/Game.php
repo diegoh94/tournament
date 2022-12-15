@@ -27,13 +27,14 @@ class Game
 
     }
 
+    // Recursive method until number of players is 1
     public function tournamentinit($playerIds, $history) {
         
         $numberOfPlayers = count($playerIds);   
         
         if ($numberOfPlayers == 1) {
             return [
-                'tournament_winner' =>$playerIds,
+                'tournament_winner' =>Player::find($playerIds, ['id', 'name']),
                 'history' => $history
             ];
         }
@@ -41,26 +42,24 @@ class Game
         $array_match = [];
         $array_winnings = [];
         
-        // Enfrentar jugadores extremos. Ejemplo: [1, 2, 3, 4] -> [1, 4] [2, 3]
+        // Match extreme players. Ejemplo: [1, 2, 3, 4] -> [1, 4] [2, 3]
         for($i = 0; $i <= ($numberOfPlayers/2) - 1 ; $i++) {    
 
-            // Establece un player ganador con base en sus skills
             $winningPlayer = $this->matchPlayer(
                 $playerIds[$i], // Player first
                 $playerIds[$numberOfPlayers-$i-1] // Last Player
             );
 
-            // Actualiza arreglo con ganadores de la primera ronda
             array_push($array_winnings, $winningPlayer['player']['id']);    
             
-            // Guarda los encuentros con sus respectivos ganadores para tener un historial del torneo
             array_push($array_match, [
                 'players' => [ $playerIds[$i], $playerIds[$numberOfPlayers-$i-1] ],
                 'winner' => $winningPlayer
             ]);
+
         }
 
-        // Guarda historial de cada fase
+        // Save history
         array_push($history, $array_match);
 
         return $this->tournamentinit($array_winnings, $history);
@@ -77,7 +76,7 @@ class Game
 
     public function getSkillPoints($player) {
 
-        $player = Player::find($player);
+        $player = Player::find($player, ['id', 'name', 'gender_id']);
         $skillsByGender = Gender::where('id', $player->gender_id)->first()->skills()->get(['skills.id', 'name']);
         $skillsPlayer = $player->playerSkills()->pluck('points', 'skill_id');
 

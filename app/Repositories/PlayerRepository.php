@@ -9,13 +9,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PlayerRepository implements PlayerRepositoryInterface
 {
-    protected $model;
-
-    public function __construct(Player $player)
-    {
-        $this->model = $player;
-    }
-
     public function create($data) {
         
         $player = Player::create([

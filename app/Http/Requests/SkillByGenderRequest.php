@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePlayerRequest extends FormRequest
+class SkillByGenderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,7 @@ class StorePlayerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required', 
-            'gender_id' => 'required|integer|in:1,2',
-            'skill_level' => 'required|integer|between:1,100',
-            'strength' => 'sometimes|integer|between:1,5',
-            'velocity_of_displacement' => 'sometimes|integer|between:1,5',
-            'reaction_time' => 'sometimes|integer|between:1,5'
+            'gender' => 'required|in:f,F,m,M'
         ];
     }
 }

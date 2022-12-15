@@ -20,6 +20,9 @@ class CreateTournamentsTable extends Migration
             $table->bigInteger('gender_id')->unsigned();
             $table->foreign('gender_id')->references('id')->on('genders');
 
+            $table->json('winner')->nullable();
+            $table->json('history')->nullable();
+
             $table->timestamps();
         });
     }

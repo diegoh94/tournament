@@ -17,6 +17,11 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\PlayerRepositoryInterface',
             'App\Repositories\PlayerRepository'
         );
+        
+        $this->app->bind(
+            'App\Repositories\TournamentRepositoryInterface',
+            'App\Repositories\TournamentRepository'
+        );
     }
 
     /**
