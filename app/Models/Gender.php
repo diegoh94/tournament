@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Skill;
 
 class Gender extends Model
 {
@@ -11,6 +12,6 @@ class Gender extends Model
 
     public function skills()
     {
-        return $this->belongsToMany('App\Models\Skill', 'gender_skills');
+        return $this->belongsToMany(Skill::class, 'gender_skills');
     }
 }

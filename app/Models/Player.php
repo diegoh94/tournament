@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Gender;
+use App\Models\PlayerSkill;
 
 class Player extends Model
 {
@@ -16,16 +18,11 @@ class Player extends Model
 
     public function gender()
     {
-        return $this->belongsTo('App\Models\Gender');
+        return $this->belongsTo(Gender::class);
     }
 
     public function skills()
     {
-        return $this->hasMany('App\Models\PlayerSkill');
-    }
-
-    public function playerSkills()
-    {
-        return $this->hasMany('App\Models\PlayerSkill');
+        return $this->hasMany(PlayerSkill::class);
     }
 }

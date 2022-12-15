@@ -14,12 +14,12 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'App\Repositories\PlayerRepositoryInterface',
+            'App\Repositories\IPlayerRepository',
             'App\Repositories\PlayerRepository'
         );
         
         $this->app->bind(
-            'App\Repositories\TournamentRepositoryInterface',
+            'App\Repositories\ITournamentRepository',
             'App\Repositories\TournamentRepository'
         );
     }

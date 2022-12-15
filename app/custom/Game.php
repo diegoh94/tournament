@@ -5,26 +5,28 @@ use App\Models\Gender;
 
 class Game 
 {
-    private $WEIGHT_SKILL_LEVEL;
-    private $WEIGHT_STRENGTH;
-    private $WEIGHT_VELOCITY_OF_DESPLACEMENT;
-    private $WEIGHT_REACTION_TIME;
+    const WEIGHT_SKILL_LEVEL = 3;
+    const GENDER_MALE_ID = 1;
+    const GENDER_FEMALE_ID = 2;
     
     private $history;
     private $tournamentGenderId;
+    private $playerIds;
 
     public function __construct() {
-        $this->WEIGHT_SKILL_LEVEL = 3;
         $this->history = [];
         $this->tournamentGenderId;
+        $this->playerIds;
     }
 
-    public function init($playerIds, $gender_id) {
-        
-        $this->tournamentGenderId = $gender_id;
+    public function setup($playerIds, $gender_id) {
         shuffle($playerIds);
-        return $this->tournamentinit($playerIds, $this->history);
+        $this->playerIds = $playerIds;
+        $this->tournamentGenderId = $gender_id;
+    }
 
+    public function init() {
+        return $this->tournamentinit($this->playerIds, $this->history);
     }
 
     // Recursive method until number of players is 1
@@ -32,15 +34,15 @@ class Game
         
         $numberOfPlayers = count($playerIds);   
         
-        if ($numberOfPlayers == 1) {
+        if ($numberOfPlayers === 1) {
             return [
                 'tournament_winner' =>Player::find($playerIds, ['id', 'name']),
                 'history' => $history
             ];
         }
 
-        $array_match = [];
-        $array_winnings = [];
+        $arrayMatch = [];
+        $arrayWinnings = [];
         
         // Match extreme players. Ejemplo: [1, 2, 3, 4] -> [1, 4] [2, 3]
         for($i = 0; $i <= ($numberOfPlayers/2) - 1 ; $i++) {    
@@ -50,9 +52,9 @@ class Game
                 $playerIds[$numberOfPlayers-$i-1] // Last Player
             );
 
-            array_push($array_winnings, $winningPlayer['player']['id']);    
+            array_push($arrayWinnings, $winningPlayer['player']['id']);    
             
-            array_push($array_match, [
+            array_push($arrayMatch, [
                 'players' => [ $playerIds[$i], $playerIds[$numberOfPlayers-$i-1] ],
                 'winner' => $winningPlayer
             ]);
@@ -60,9 +62,9 @@ class Game
         }
 
         // Save history
-        array_push($history, $array_match);
+        array_push($history, $arrayMatch);
 
-        return $this->tournamentinit($array_winnings, $history);
+        return $this->tournamentinit($arrayWinnings, $history);
     }
 
     public function matchPlayer($playerA, $playerB) {
@@ -78,7 +80,7 @@ class Game
 
         $player = Player::find($player, ['id', 'name', 'gender_id']);
         $skillsByGender = Gender::where('id', $player->gender_id)->first()->skills()->get(['skills.id', 'name']);
-        $skillsPlayer = $player->playerSkills()->pluck('points', 'skill_id');
+        $skillsPlayer = $player->skills()->pluck('points', 'skill_id');
 
         $skillPoints = [];
 
@@ -97,7 +99,7 @@ class Game
         $dataA = $this->addTotalScore($skillsPointsA);
         $dataB = $this->addTotalScore($skillsPointsB);
 
-        if ($dataA['score'] == $dataB['score']) {
+        if ($dataA['score'] === $dataB['score']) {
             return $this->compareSkillsAndReturnWinner($skillsPointsA, $skillsPointsB);
         }
 
@@ -111,11 +113,11 @@ class Game
         $genderId = $this->tournamentGenderId;
         
         if ($this->isMaleTournament($genderId)) {
-            $skillsPoints['score'] = $score = $this->WEIGHT_SKILL_LEVEL * rand(0, $points['skill_level']) + $points['strength'] + $points['velocity_of_displacement'];            
+            $skillsPoints['score'] = $score = Game::WEIGHT_SKILL_LEVEL * rand(0, $points['skill_level']) + $points['strength'] + $points['velocity_of_displacement'];            
         }
 
         if ($this->isFemaleTournament($genderId)) {
-            $skillsPoints['score'] = $score = $this->WEIGHT_SKILL_LEVEL * rand(0, $points['skill_level']) + $points['reaction_time'];            
+            $skillsPoints['score'] = $score = Game::WEIGHT_SKILL_LEVEL * rand(0, $points['skill_level']) + $points['reaction_time'];            
         }
 
         return $skillsPoints;
@@ -123,10 +125,10 @@ class Game
     }
 
     public function isMaleTournament($genderId) {
-        return $genderId == 1;
+        return $genderId === Game::GENDER_MALE_ID;
     }
 
     public function isFemaleTournament($genderId) {
-        return $genderId == 2;
+        return $genderId === Game::GENDER_FEMALE_ID;
     }
 }

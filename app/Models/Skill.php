@@ -12,7 +12,7 @@ class Skill extends Model
 
     public function genders()
     {
-        return $this->belongsToMany('App\Models\Gender', 'gender_skills');
+        return $this->belongsToMany(Gender::class, 'gender_skills');
     }
 
 }

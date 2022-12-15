@@ -24,7 +24,7 @@ class ValidateGender implements Rule
     public function passes($attribute, $value)
     {
         $gender_id = Player::find($value)->gender_id;
-        return $gender_id == $this->gender_tournament_id;
+        return $gender_id === $this->gender_tournament_id;
     }
 
     /**

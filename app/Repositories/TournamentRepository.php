@@ -8,7 +8,7 @@ use App\Models\Player;
 use App\Custom\Game;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class TournamentRepository implements TournamentRepositoryInterface
+class TournamentRepository implements ITournamentRepository
 {
     protected $game;
 
@@ -32,8 +32,8 @@ class TournamentRepository implements TournamentRepositoryInterface
             TournamentPlayer::createFromPlayer($tournament->id, $player);
         }
         
-        // game init, return array[tournament_winner, history]
-        $tournamentData = $this->game->init($playerIds, $tournament->gender_id);
+        $tournamentData = $this->game->setup($playerIds, $tournament->gender_id);
+        $tournamentData = $this->game->init();
         
         $tournament->update([
             'winner' => json_encode($tournamentData['tournament_winner']),
