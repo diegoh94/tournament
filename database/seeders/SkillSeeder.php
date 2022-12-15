@@ -22,7 +22,7 @@ class SkillSeeder extends Seeder
                 'name' => 'strength'
             ],
             [
-                'name' => 'velocity_f_displacement'
+                'name' => 'velocity_of_displacement'
             ],
             [
                 'name' => 'reaction_time'

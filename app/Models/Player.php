@@ -23,4 +23,9 @@ class Player extends Model
     {
         return $this->hasMany('App\Models\PlayerSkill');
     }
+
+    public function playerSkills()
+    {
+        return $this->hasMany('App\Models\PlayerSkill');
+    }
 }

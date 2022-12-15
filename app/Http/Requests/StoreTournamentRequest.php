@@ -30,7 +30,7 @@ class StoreTournamentRequest extends FormRequest
             'name' => 'required|string',
             'gender_id' => 'integer|exists:genders,id',
             'player_ids' => ['required', 'array', 'min:2', new LengthPotencyOfTwo],            
-            'player_ids.*' => ['bail', 'integer', 'distinct', 'exists:players,id', new ValidateGender($request->input('gender_id'))] 
+            'player_ids.*' => ['bail', 'integer', 'distinct', 'exists:players,id', new ValidateGender($request->input('gender_id'))]
         ];
     }
 }

@@ -36,7 +36,7 @@ class TournamentController extends Controller
             ]);
         }
         
-        return $this->game->init($playerIds);
+        return $this->game->init($playerIds, $tournament->gender_id);
         
     }
     

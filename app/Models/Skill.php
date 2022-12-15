@@ -14,4 +14,5 @@ class Skill extends Model
     {
         return $this->belongsToMany('App\Models\Gender', 'gender_skills');
     }
+
 }
