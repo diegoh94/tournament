@@ -18,24 +18,24 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::group(['prefix' => 'auth'], function () {
-
+    // Public routes
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'signUp']);
   
     Route::group(['middleware' => 'auth:api'], function() {
-
+        // Protected routes
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('user', [AuthController::class, 'user']);
-
     });
-    
+
 });
 
-Route::get('/players', [PlayerController::class, 'index']);
-Route::post('/player', [PlayerController::class, 'store']);
-Route::post('/player/{player}/update', [PlayerController::class, 'update']);
-
-Route::get('/skills', [SkillController::class, 'byGender']);
-
-Route::post('/tournament', [TournamentController::class, 'store']);
-Route::post('/tournaments', [TournamentController::class, 'index']);
+Route::group(['middleware' => 'auth:api'], function() {    
+    // Tournament - Protected routes
+    Route::get('/players', [PlayerController::class, 'index']);
+    Route::post('/player', [PlayerController::class, 'store']);
+    Route::post('/player/{player}/update', [PlayerController::class, 'update']);    
+    Route::get('/skills', [SkillController::class, 'byGender']);    
+    Route::post('/tournament', [TournamentController::class, 'store']);
+    Route::post('/tournaments', [TournamentController::class, 'index']);
+});
