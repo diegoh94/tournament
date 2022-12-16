@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TournamentController;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,6 +16,20 @@ use App\Http\Controllers\TournamentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('signup', [AuthController::class, 'signUp']);
+  
+    Route::group(['middleware' => 'auth:api'], function() {
+
+        Route::get('logout', [AuthController::class, 'logout']);
+        Route::get('user', [AuthController::class, 'user']);
+
+    });
+    
+});
 
 Route::get('/players', [PlayerController::class, 'index']);
 Route::post('/player', [PlayerController::class, 'store']);
